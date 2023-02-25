@@ -82,11 +82,18 @@ def guess_number(update, context):
         message = "Введите целое число"
     update.message.reply_text(message)        
 
-def send_cat_picture(update, context):
+# def send_cat_picture(update, context):
+#     cat_photos_list = glob('images/cat*.jp*g')
+#     cat_pic_filename = choice(cat_photos_list)
+#     chat_id = update.effective_chat.id
+#     context.bot.send_photo(chat_id=chat_id, photo=open(cat_pic_filename, 'rb'))
+
+
+def send_cat_picture_two(update, context):
     cat_photos_list = glob('images/cat*.jp*g')
     cat_pic_filename = choice(cat_photos_list)
-    chat_id = update.effective_chat.id
-    context.bot.send_photo(chat_id=chat_id, photo=open(cat_pic_filename, 'rb'))
+    update.message.reply_photo(open(cat_pic_filename, 'rb'))
+
 
 def main():
     mybot = Updater(settings.API_KEY, use_context=True)
@@ -95,10 +102,10 @@ def main():
     dp.add_handler(CommandHandler("start", greet_user))
     dp.add_handler(CommandHandler("planet", planets))
     dp.add_handler(CommandHandler("guess", guess_number))
-    dp.add_handler(CommandHandler("cat", send_cat_picture))
+    dp.add_handler(CommandHandler("cat", send_cat_picture_two))
     dp.add_handler(MessageHandler(Filters.text, talk_to_me))
 
-    logging.info("Бот стартовал")
+    logger.info("Бот стартовал")
 
     mybot.start_polling()
     mybot.idle()
